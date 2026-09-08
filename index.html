@@ -66,16 +66,18 @@
     position: sticky;
     top: 0;
     z-index: 20;
+    background: var(--board-dark);
+    box-shadow: 0 2px 14px rgba(0,0,0,0.25);
   }
   .hero-nav-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 76px;
+    height: 72px;
   }
   .brand {
     font-family: 'Fraunces', serif;
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: 700;
     text-decoration: none;
     color: var(--paper);
@@ -84,30 +86,32 @@
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 28px;
+    gap: 10px;
     list-style: none;
     margin: 0;
     padding: 0;
   }
   .nav-links a {
     text-decoration: none;
-    font-size: 0.95rem;
-    color: var(--paper);
-    opacity: 0.88;
-    transition: opacity 0.15s ease;
-  }
-  .nav-links a:hover { opacity: 1; }
-  .nav-cta {
-    background: var(--paper);
-    color: var(--board-dark) !important;
-    padding: 9px 20px;
-    border-radius: 24px;
-    font-weight: 600;
     font-size: 0.9rem;
-    text-decoration: none;
+    font-weight: 600;
+    color: var(--paper);
+    padding: 9px 16px;
+    border-radius: 20px;
+    background: rgba(242,239,230,0.1);
+    border: 1px solid rgba(242,239,230,0.16);
+    transition: background 0.15s ease, border-color 0.15s ease;
     white-space: nowrap;
-    opacity: 1 !important;
   }
+  .nav-links a:hover { background: rgba(242,239,230,0.2); border-color: rgba(242,239,230,0.3); }
+  .nav-cta {
+    background: var(--chalk-yellow) !important;
+    color: var(--board-dark) !important;
+    border-color: var(--chalk-yellow) !important;
+    padding: 9px 20px;
+    font-weight: 700;
+  }
+  .nav-cta:hover { background: #f0c86a !important; }
   .nav-toggle {
     display: none;
     background: none;
@@ -125,12 +129,12 @@
       flex-direction: column;
       align-items: flex-start;
       position: absolute;
-      top: 76px;
+      top: 72px;
       left: 0;
       right: 0;
       background: var(--board-dark);
       padding: 20px 24px 28px;
-      gap: 18px;
+      gap: 12px;
     }
   }
 
