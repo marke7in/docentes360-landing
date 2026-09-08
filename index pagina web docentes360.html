@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docentes360 — Tu aula, ordenada</title>
+<meta name="description" content="Asistencia, calificaciones y planificación en un solo lugar, pensado para el día a día del aula argentina.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --board: #2B4339;
+    --board-dark: #1F332B;
+    --paper: #F2EFE6;
+    --ink: #1F2B26;
+    --chalk-yellow: #E8B94A;
+    --chalk-coral: #D9695A;
+    --chalk-mint: #7FB89A;
+    --line: rgba(242, 239, 230, 0.18);
+    --line-paper: rgba(31, 43, 38, 0.14);
+    --max-w: 1080px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Public Sans', sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.55;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Fraunces', serif;
+    line-height: 1.15;
+    margin: 0;
+    font-weight: 600;
+  }
+
+  a { color: inherit; }
+
+  img, svg { display: block; max-width: 100%; }
+
+  .wrap {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--chalk-yellow);
+    outline-offset: 3px;
+  }
+
+  /* ---------- Nav (sobre el hero con degradé) ---------- */
+  .hero-nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+  .hero-nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 76px;
+  }
+  .brand {
+    font-family: 'Fraunces', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--paper);
+    letter-spacing: 0.01em;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-links a {
+    text-decoration: none;
+    font-size: 0.95rem;
+    color: var(--paper);
+    opacity: 0.88;
+    transition: opacity 0.15s ease;
+  }
+  .nav-links a:hover { opacity: 1; }
+  .nav-cta {
+    background: var(--paper);
+    color: var(--board-dark) !important;
+    padding: 9px 20px;
+    border-radius: 24px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    white-space: nowrap;
+    opacity: 1 !important;
+  }
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--paper);
+    font-size: 1.6rem;
+    cursor: pointer;
+  }
+
+  @media (max-width: 800px) {
+    .nav-links { display: none; }
+    .nav-toggle { display: block; }
+    .hero-nav.open .nav-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      position: absolute;
+      top: 76px;
+      left: 0;
+      right: 0;
+      background: var(--board-dark);
+      padding: 20px 24px 28px;
+      gap: 18px;
+    }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    background: linear-gradient(115deg, #1F332B 0%, #2B4339 30%, #3E6E5C 55%, #C97A5C 82%, #D9695A 100%);
+    color: var(--paper);
+    padding-bottom: 90px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 40px;
+    align-items: center;
+    padding-top: 20px;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(242,239,230,0.16);
+    border: 1px solid rgba(242,239,230,0.28);
+    color: var(--paper);
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 26px;
+  }
+  .hero h1 {
+    font-weight: 700;
+    font-size: clamp(2.4rem, 4.8vw, 4rem);
+    line-height: 1.03;
+    margin-bottom: 28px;
+    letter-spacing: -0.01em;
+  }
+  .hero h1 span { display: block; }
+  .hero h1 .l1 { color: var(--board-dark); }
+  .hero h1 .l2 { color: #E8DFC7; }
+  .hero h1 .l3 { color: var(--chalk-yellow); }
+
+  .hero p.lead {
+    font-size: 1.1rem;
+    max-width: 44ch;
+    color: rgba(242,239,230,0.92);
+    margin-bottom: 32px;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 13px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.98rem;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform 0.12s ease, background 0.15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--board-dark); color: var(--paper); }
+  .btn-primary:hover { background: #0f1b16; }
+  .btn-ghost { background: transparent; color: var(--paper); border-color: rgba(242,239,230,0.4); }
+  .btn-ghost:hover { border-color: var(--paper); }
+
+  .placeholder {
+    border: 1.5px dashed rgba(242,239,230,0.35);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: rgba(242,239,230,0.55);
+    font-size: 0.85rem;
+    padding: 20px;
+  }
+
+  /* ---------- Tarjetas flotantes interactivas ---------- */
+  .visual { position: relative; height: 460px; }
+
+  .card-grid {
+    position: absolute;
+    top: 0; left: 20px;
+    width: 290px;
+    background: #FFFFFF;
+    border-radius: 18px;
+    box-shadow: 0 40px 80px -20px rgba(0,0,0,0.45);
+    padding: 18px;
+    transform: rotate(-5deg);
+    color: var(--ink);
+  }
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 0.92rem;
+  }
+  .card-hint {
+    font-weight: 500;
+    font-size: 0.72rem;
+    opacity: 0.55;
+  }
+  .att-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 4px;
+    border: none;
+    border-top: 1px solid #EEE;
+    background: transparent;
+    font-family: 'Public Sans', sans-serif;
+    font-size: 0.83rem;
+    color: #333;
+    cursor: pointer;
+    text-align: left;
+    border-radius: 6px;
+    transition: background 0.15s ease;
+  }
+  .att-row:first-of-type { border-top: none; }
+  .att-row:hover { background: #F7F5EF; }
+  .att-row:active { transform: scale(0.99); }
+  .att-row .dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: background 0.15s ease;
+  }
+  .att-row .name { flex: 1; }
+  .att-row .state-label { font-weight: 600; font-size: 0.78rem; }
+
+  .att-row[data-state="presente"] .dot { background: var(--chalk-mint); }
+  .att-row[data-state="presente"] .state-label { color: #4C8A6D; }
+  .att-row[data-state="tarde"] .dot { background: var(--chalk-yellow); }
+  .att-row[data-state="tarde"] .state-label { color: #B98424; }
+  .att-row[data-state="ausente"] .dot { background: var(--chalk-coral); }
+  .att-row[data-state="ausente"] .state-label { color: #B84837; }
+  .att-row[data-state="justificada"] .dot { background: #7B8FD9; }
+  .att-row[data-state="justificada"] .state-label { color: #5568B8; }
+
+  .card-stats {
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 280px;
+    background: var(--board-dark);
+    border-radius: 16px;
+    box-shadow: 0 40px 80px -20px rgba(0,0,0,0.5);
+    padding: 20px;
+    transform: rotate(3deg);
+    color: var(--paper);
+  }
+  .card-stats .label { font-size: 0.78rem; opacity: 0.7; margin-bottom: 4px; }
+  .card-stats .big {
+    font-family: 'Fraunces', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 14px;
+    transition: opacity 0.15s ease;
+  }
+  .bars { display: flex; align-items: flex-end; gap: 6px; height: 46px; }
+  .bars div {
+    flex: 1;
+    background: linear-gradient(180deg, var(--chalk-yellow), #d9a03e);
+    border-radius: 3px 3px 0 0;
+    transition: height 0.25s ease;
+  }
+
+  @media (max-width: 800px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .visual { height: 380px; margin-top: 10px; }
+    .card-grid { width: 240px; left: 0; }
+    .card-stats { width: 210px; }
+  }
+
+  /* ---------- Section shell ---------- */
+  section { padding: 84px 0; }
+  .section-board { background: var(--board); color: var(--paper); }
+  .section-paper { background: var(--paper); color: var(--ink); }
+
+  .kicker-row { max-width: 640px; margin-bottom: 48px; }
+  h2 { font-size: clamp(1.7rem, 3vw, 2.3rem); max-width: 16ch; }
+  .kicker-row p { font-size: 1.05rem; opacity: 0.85; max-width: 52ch; margin-top: 12px; }
+  .section-board .kicker-row p { opacity: 0.82; }
+
+  /* ---------- Problema / Solución ---------- */
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+  }
+  .split h3 {
+    font-size: 1.15rem;
+    margin-bottom: 14px;
+  }
+  .split ul { margin: 0; padding-left: 0; list-style: none; }
+  .split li {
+    padding: 12px 0 12px 26px;
+    border-top: 1px solid var(--line-paper);
+    position: relative;
+    font-size: 0.98rem;
+  }
+  .split li:last-child { border-bottom: 1px solid var(--line-paper); }
+  .split li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 20px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+  .col-problema li::before { background: var(--chalk-coral); }
+  .col-solucion li::before { background: var(--chalk-mint); }
+
+  @media (max-width: 760px) {
+    .split { grid-template-columns: 1fr; gap: 36px; }
+  }
+
+  /* ---------- Features (grilla estilo planilla) ---------- */
+  .feature-grid {
+    border-top: 1px solid var(--line);
+  }
+  .feature-row {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 20px;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .feature-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    margin-top: 6px;
+  }
+  .feature-row h3 {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+    color: var(--paper);
+  }
+  .feature-row p { margin: 0; opacity: 0.85; max-width: 60ch; }
+
+  /* ---------- Capturas ---------- */
+  .shot-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .shot {
+    background: #fff;
+    border: 1px solid var(--line-paper);
+    border-radius: 4px;
+    padding: 10px 10px 16px;
+    box-shadow: 0 10px 24px -16px rgba(31,43,38,0.35);
+    transform: rotate(var(--tilt, 0deg));
+  }
+  .shot:nth-child(1) { --tilt: -1.4deg; }
+  .shot:nth-child(2) { --tilt: 0.8deg; }
+  .shot:nth-child(3) { --tilt: -0.6deg; }
+  .shot .placeholder {
+    aspect-ratio: 4/3;
+    border-color: var(--line-paper);
+    color: rgba(31,43,38,0.45);
+    border-radius: 2px;
+  }
+  .shot figcaption {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    text-align: center;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 760px) {
+    .shot-grid { grid-template-columns: 1fr; max-width: 320px; margin: 0 auto; }
+  }
+
+  /* ---------- Video ---------- */
+  .video-frame {
+    max-width: 760px;
+    aspect-ratio: 16 / 9;
+    background: var(--board-dark);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .video-placeholder {
+    height: 100%;
+    border-color: rgba(242,239,230,0.35);
+    color: rgba(242,239,230,0.6);
+    flex-direction: column;
+    gap: 10px;
+    aspect-ratio: auto;
+  }
+  .play-icon {
+    font-size: 1.6rem;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(242,239,230,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ---------- Planes ---------- */
+  .plans {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .plans-3 { grid-template-columns: repeat(3, 1fr); }
+  .plan-card {
+    background: var(--board-dark);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 32px 28px;
+    position: relative;
+  }
+  .plan-card.featured { border-color: var(--chalk-yellow); }
+  .plan-tag {
+    position: absolute;
+    top: -13px;
+    left: 28px;
+    background: var(--chalk-yellow);
+    color: var(--board-dark);
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 3px;
+  }
+  .plan-card h3 { font-size: 1.3rem; margin-bottom: 6px; }
+  .plan-price {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    margin: 14px 0 4px;
+  }
+  .plan-price span { font-size: 0.9rem; font-weight: 400; opacity: 0.65; }
+  .plan-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 22px 0 28px;
+  }
+  .plan-card li {
+    padding: 8px 0 8px 22px;
+    position: relative;
+    font-size: 0.95rem;
+    opacity: 0.9;
+    border-top: 1px solid var(--line);
+  }
+  .plan-card li:first-child { border-top: none; }
+  .plan-card li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--chalk-mint);
+  }
+  .plan-card .btn { width: 100%; text-align: center; }
+
+  @media (max-width: 760px) {
+    .plans { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- CTA final ---------- */
+  .cta-final { text-align: center; }
+  .cta-final h2 { max-width: none; margin: 0 auto 16px; }
+  .cta-final p { max-width: 46ch; margin: 0 auto 28px; opacity: 0.85; }
+  .cta-final .hero-actions { justify-content: center; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    background: var(--board-dark);
+    color: var(--paper);
+    padding: 40px 0;
+    font-size: 0.88rem;
+  }
+  footer .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  footer a { opacity: 0.75; text-decoration: none; margin-left: 20px; }
+  footer a:hover { opacity: 1; }
+  footer .foot-brand { opacity: 0.6; }
+</style>
+</head>
+<body>
+
+<nav class="hero-nav" id="nav">
+  <div class="wrap hero-nav-inner">
+    <a href="#" class="brand">Docentes360</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="#funciones">Funciones</a></li>
+      <li><a href="#capturas">Capturas</a></li>
+      <li><a href="#planes">Planes</a></li>
+      <li><a href="https://docente-app-nine.vercel.app/" class="nav-cta">Probar gratis</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="pill">✦ Nuevo · Ficha en Play Store en camino</div>
+      <h1>
+        <span class="l1">Tu aula,</span>
+        <span class="l2">ordenada</span>
+        <span class="l3">en un solo lugar</span>
+      </h1>
+      <p class="lead">Asistencia, calificaciones, horarios y planificación en una sola app, pensada para el ritmo real del aula argentina.</p>
+      <div class="hero-actions">
+        <a href="https://docente-app-nine.vercel.app/" class="btn btn-primary">Probar 15 días gratis</a>
+        <a href="#funciones" class="btn btn-ghost">Ver cómo funciona</a>
+      </div>
+    </div>
+
+    <div class="visual">
+      <div class="card-grid">
+        <div class="card-head">
+          <span>Hoy · 4°B</span>
+          <span class="card-hint">tocá un nombre ↓</span>
+        </div>
+        <button type="button" class="att-row" data-state="presente">
+          <span class="dot"></span><span class="name">Sofía Rivas</span><span class="state-label">Presente</span>
+        </button>
+        <button type="button" class="att-row" data-state="tarde">
+          <span class="dot"></span><span class="name">Bruno Toledo</span><span class="state-label">Tarde</span>
+        </button>
+        <button type="button" class="att-row" data-state="ausente">
+          <span class="dot"></span><span class="name">Mora Fernández</span><span class="state-label">Ausente</span>
+        </button>
+        <button type="button" class="att-row" data-state="presente">
+          <span class="dot"></span><span class="name">Nahuel Sosa</span><span class="state-label">Presente</span>
+        </button>
+      </div>
+      <div class="card-stats">
+        <div class="label">Presentes marcados hoy</div>
+        <div class="big" id="presentCount">2 / 4</div>
+        <div class="bars" id="bars">
+          <div style="height:50%"></div>
+          <div style="height:25%"></div>
+          <div style="height:10%"></div>
+          <div style="height:50%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="section-paper" id="problema">
+  <div class="wrap">
+    <div class="kicker-row">
+      <h2>Lo que hoy se resuelve con tres cuadernos distintos</h2>
+      <p>Docentes360 no inventa un proceso nuevo: junta el que ya usás, disperso en papel, planillas y WhatsApp.</p>
+    </div>
+    <div class="split">
+      <div class="col-problema">
+        <h3>Antes</h3>
+        <ul>
+          <li>Planilla de asistencia en papel, una por curso</li>
+          <li>Notas en un cuaderno aparte, difícil de promediar</li>
+          <li>Planificaciones sueltas en carpetas o el celular</li>
+          <li>Horarios que hay que recordar de memoria</li>
+        </ul>
+      </div>
+      <div class="col-solucion">
+        <h3>Con Docentes360</h3>
+        <ul>
+          <li>Una grilla digital con estado de cada alumno, por fecha</li>
+          <li>Calificaciones con semáforo de color, editable al toque</li>
+          <li>Planificación con archivo adjunto, enlazada al calendario</li>
+          <li>Horarios por turno, diferenciados y siempre a mano</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-board" id="funciones">
+  <div class="wrap">
+    <div class="kicker-row">
+      <h2>Cuatro herramientas, un solo lugar</h2>
+      <p>Cada una resuelve algo puntual del día a día docente, sin pasos de más.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-row">
+        <div class="feature-dot" style="background: var(--chalk-mint);"></div>
+        <div>
+          <h3>Asistencia en grilla</h3>
+          <p>Marcá presente, tarde, ausente o justificada con un toque. Los mismos colores que ya usás en papel, ahora ordenados por fecha y alumno.</p>
+        </div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-dot" style="background: var(--chalk-yellow);"></div>
+        <div>
+          <h3>Calificaciones con semáforo</h3>
+          <p>Verde para los promedios altos, dorado para los medios, rojo para los que necesitan seguimiento. Editable en el momento, sin planillas aparte.</p>
+        </div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-dot" style="background: var(--chalk-coral);"></div>
+        <div>
+          <h3>Planificación enlazada al calendario</h3>
+          <p>Subí el archivo de la clase, sumá una fecha si corresponde, y queda visible en el calendario general sin cargarlo dos veces.</p>
+        </div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-dot" style="background: var(--paper); opacity: 0.7;"></div>
+        <div>
+          <h3>Horarios por turno</h3>
+          <p>Mañana, tarde o noche, cada uno con su color, para no confundirte de aula ni de curso entre semana.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-paper" id="capturas">
+  <div class="wrap">
+    <div class="kicker-row">
+      <h2>Así se ve en el aula</h2>
+      <p>Capturas reales de la app, del celular a la pantalla.</p>
+    </div>
+    <div class="shot-grid">
+      <figure class="shot">
+        <div class="placeholder">Espacio para captura:<br>grilla de asistencia</div>
+        <figcaption>Asistencia semanal</figcaption>
+      </figure>
+      <figure class="shot">
+        <div class="placeholder">Espacio para captura:<br>calificaciones</div>
+        <figcaption>Calificaciones con semáforo</figcaption>
+      </figure>
+      <figure class="shot">
+        <div class="placeholder">Espacio para captura:<br>calendario</div>
+        <figcaption>Planificación y calendario</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="section-paper" id="video">
+  <div class="wrap">
+    <div class="kicker-row">
+      <h2>Un minuto para ver cómo funciona</h2>
+      <p>Un recorrido rápido por la asistencia, las calificaciones y el calendario, tal como los usás en el aula.</p>
+    </div>
+    <div class="video-frame">
+      <!-- Reemplazar por el video real. Dos opciones:
+        1) Archivo propio: <video controls poster="captura.jpg" src="demo.mp4" style="width:100%;height:100%;border-radius:6px;"></video>
+        2) YouTube/Vimeo: <iframe src="https://www.youtube.com/embed/TU_ID" style="width:100%;height:100%;border:0;border-radius:6px;" allowfullscreen></iframe>
+      -->
+      <div class="placeholder video-placeholder">
+        <span class="play-icon" aria-hidden="true">▶</span>
+        Espacio para video demo (.mp4 o embed de YouTube/Vimeo)
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-board" id="planes">
+  <div class="wrap">
+    <div class="kicker-row">
+      <h2>Empezá gratis, seguí si te sirve</h2>
+      <p>Sin tarjeta para probar. Pasados los 15 días, elegís si continuás.</p>
+    </div>
+    <div class="plans plans-3">
+      <div class="plan-card">
+        <h3>Prueba gratuita</h3>
+        <div class="plan-price">$0 <span>/ 15 días</span></div>
+        <ul>
+          <li>Acceso completo a asistencia, notas y planificación</li>
+          <li>Horarios por turno</li>
+          <li>Almacenamiento estándar para archivos de clase</li>
+        </ul>
+        <a href="https://docente-app-nine.vercel.app/" class="btn btn-ghost">Empezar prueba</a>
+      </div>
+      <div class="plan-card">
+        <h3>Plan Estándar</h3>
+        <div class="plan-price">$5.000 <span>/ mes</span></div>
+        <ul>
+          <li>Todo lo del plan gratuito, sin límite de días</li>
+          <li>Almacenamiento estándar por docente</li>
+          <li>Soporte por email</li>
+        </ul>
+        <a href="https://docente-app-nine.vercel.app/" class="btn btn-ghost">Elegir Estándar</a>
+      </div>
+      <div class="plan-card featured">
+        <span class="plan-tag">Más espacio</span>
+        <h3>Plan Full</h3>
+        <div class="plan-price">$7.500 <span>/ mes</span></div>
+        <ul>
+          <li>Todo lo del Plan Estándar</li>
+          <li>Mayor capacidad de almacenamiento por docente</li>
+          <li>Soporte prioritario</li>
+        </ul>
+        <a href="https://docente-app-nine.vercel.app/" class="btn btn-primary">Elegir Plan Full</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-paper cta-final">
+  <div class="wrap">
+    <h2>¿Listo para ordenar el aula?</h2>
+    <p>Probá Docentes360 quince días sin costo y decidí después con calma.</p>
+    <div class="hero-actions">
+      <a href="https://docente-app-nine.vercel.app/" class="btn btn-primary" style="background: var(--board); color: var(--paper);">Probar gratis ahora</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="foot-brand">© 2026 Docentes360</span>
+    <div>
+      <a href="privacidad.html">Privacidad</a>
+      <a href="mailto:marke7in@gmail.com">Contacto</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const nav = document.getElementById('nav');
+  navToggle.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  nav.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      nav.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Tarjeta de asistencia interactiva: ciclo de estados al tocar un alumno
+  const states = [
+    { key: 'presente', label: 'Presente', bar: 90 },
+    { key: 'tarde', label: 'Tarde', bar: 55 },
+    { key: 'ausente', label: 'Ausente', bar: 12 },
+    { key: 'justificada', label: 'Justificada', bar: 30 }
+  ];
+  const rows = document.querySelectorAll('.att-row');
+  const bars = document.querySelectorAll('#bars div');
+  const counter = document.getElementById('presentCount');
+
+  function updateSummary() {
+    const total = rows.length;
+    const presentes = Array.from(rows).filter(r => r.dataset.state === 'presente').length;
+    counter.textContent = presentes + ' / ' + total;
+  }
+
+  rows.forEach((row, i) => {
+    row.addEventListener('click', () => {
+      const current = states.findIndex(s => s.key === row.dataset.state);
+      const next = states[(current + 1) % states.length];
+      row.dataset.state = next.key;
+      row.querySelector('.state-label').textContent = next.label;
+      if (bars[i]) bars[i].style.height = next.bar + '%';
+      updateSummary();
+    });
+  });
+</script>
+
+</body>
+</html>
