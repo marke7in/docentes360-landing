@@ -523,6 +523,55 @@
   footer a { opacity: 0.75; text-decoration: none; margin-left: 20px; }
   footer a:hover { opacity: 1; }
   footer .foot-brand { opacity: 0.6; }
+
+  /* ---------- Ingresar (inicio de sesión desde la página) ---------- */
+  .nav-login { border-color: rgba(242,239,230,0.45) !important; }
+  .hero-login { margin: 18px 0 0; font-size: 0.95rem; color: rgba(242,239,230,0.85); }
+  .hero-login a { color: var(--chalk-yellow); font-weight: 700; }
+  .ingreso-fondo {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(15, 27, 22, 0.6);
+    display: none; align-items: center; justify-content: center;
+    padding: 16px;
+  }
+  .ingreso-fondo.abierto { display: flex; }
+  .ingreso-caja {
+    width: 100%; max-width: 400px;
+    background: var(--paper); color: var(--ink);
+    border-radius: 14px; padding: 26px 24px 22px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    position: relative;
+  }
+  .ingreso-caja h2 { font-size: 1.5rem; color: var(--board-dark); margin-bottom: 4px; }
+  .ingreso-sub { margin: 0 0 18px; font-size: 0.92rem; color: #5a6660; }
+  .ingreso-cerrar {
+    position: absolute; top: 10px; right: 12px;
+    background: none; border: none; font-size: 1.5rem; line-height: 1;
+    color: #5a6660; cursor: pointer; padding: 6px;
+  }
+  .ingreso-caja label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; }
+  .ingreso-caja input {
+    width: 100%; font: inherit; font-size: 1rem;
+    padding: 12px 14px; border-radius: 8px;
+    border: 1px solid var(--line-paper); background: #fff; color: var(--ink);
+  }
+  .ingreso-campo { margin-bottom: 14px; }
+  .ingreso-clave { position: relative; }
+  .ingreso-clave input { padding-right: 70px; }
+  .ingreso-ver {
+    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; font: inherit; font-size: 0.82rem; font-weight: 700;
+    color: var(--board); cursor: pointer; padding: 6px;
+  }
+  .ingreso-error {
+    display: none; margin: 0 0 14px; padding: 10px 12px; border-radius: 8px;
+    background: #F6DAD8; color: #8A2420; font-size: 0.88rem;
+  }
+  .ingreso-error.visible { display: block; }
+  .ingreso-entrar { width: 100%; font-size: 1rem; }
+  .ingreso-entrar[disabled] { opacity: 0.7; cursor: default; transform: none; }
+  .ingreso-links { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; font-size: 0.9rem; text-align: center; }
+  .ingreso-links a { color: var(--board); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -535,7 +584,8 @@
       <li><a href="#funciones">Funciones</a></li>
       <li><a href="#capturas">Capturas</a></li>
       <li><a href="#planes">Planes</a></li>
-      <li><a href="https://docente-app-nine.vercel.app/" class="nav-cta">Probar gratis</a></li>
+      <li><a href="#ingresar" class="nav-login" data-abrir-ingreso>Ingresar</a></li>
+      <li><a href="https://app.docentes360.com.ar/" class="nav-cta">Probar gratis</a></li>
     </ul>
   </div>
 </nav>
@@ -551,9 +601,10 @@
       </h1>
       <p class="lead">Asistencia, calificaciones, horarios y planificación en una sola app, pensada para el ritmo real del aula argentina.</p>
       <div class="hero-actions">
-        <a href="https://docente-app-nine.vercel.app/" class="btn btn-primary">Probar 15 días gratis</a>
+        <a href="https://app.docentes360.com.ar/" class="btn btn-primary">Probar 15 días gratis</a>
         <a href="#funciones" class="btn btn-ghost">Ver cómo funciona</a>
       </div>
+      <p class="hero-login">¿Ya tenés cuenta? <a href="#ingresar" data-abrir-ingreso>Ingresá acá</a></p>
     </div>
 
     <div class="visual">
@@ -727,7 +778,7 @@
           <li>1 escuela</li>
           <li>Asistencia, notas y planificación</li>
         </ul>
-        <a href="https://docente-app-nine.vercel.app/" class="btn btn-ghost">Empezar gratis</a>
+        <a href="https://app.docentes360.com.ar/" class="btn btn-ghost">Empezar gratis</a>
       </div>
       <div class="plan-card featured">
         <span class="plan-tag">Precio promocional</span>
@@ -738,7 +789,7 @@
           <li>Reemplazos y licencias</li>
           <li>Precio fijo si te registrás antes del 31/12/2026</li>
         </ul>
-        <a href="https://docente-app-nine.vercel.app/" class="btn btn-primary">Elegir Plan Normal</a>
+        <a href="https://app.docentes360.com.ar/" class="btn btn-primary">Elegir Plan Normal</a>
       </div>
     </div>
     <p style="margin-top: 32px; font-size: 0.85rem; opacity: 0.65; max-width: 52ch;">* A partir del 1/1/2027 el Plan Normal pasa a $5.000/mes para las nuevas altas. Quienes se registren antes de esa fecha mantienen $3.000/mes.</p>
@@ -750,7 +801,7 @@
     <h2>¿Listo para ordenar el aula?</h2>
     <p>Probá Docentes360 quince días sin costo y decidí después con calma.</p>
     <div class="hero-actions">
-      <a href="https://docente-app-nine.vercel.app/" class="btn btn-primary" style="background: var(--board); color: var(--paper);">Probar gratis ahora</a>
+      <a href="https://app.docentes360.com.ar/" class="btn btn-primary" style="background: var(--board); color: var(--paper);">Probar gratis ahora</a>
     </div>
   </div>
 </section>
@@ -764,6 +815,34 @@
     </div>
   </div>
 </footer>
+
+
+<div class="ingreso-fondo" id="ingreso" role="dialog" aria-modal="true" aria-labelledby="ingresoTitulo">
+  <div class="ingreso-caja">
+    <button class="ingreso-cerrar" id="ingresoCerrar" aria-label="Cerrar">×</button>
+    <h2 id="ingresoTitulo">Ingresá a Docentes360</h2>
+    <p class="ingreso-sub">Con el mismo mail y contraseña de la app.</p>
+    <form id="ingresoForm" novalidate>
+      <div class="ingreso-campo">
+        <label for="ingresoEmail">Email</label>
+        <input id="ingresoEmail" type="email" autocomplete="email" inputmode="email" required>
+      </div>
+      <div class="ingreso-campo">
+        <label for="ingresoClave">Contraseña</label>
+        <div class="ingreso-clave">
+          <input id="ingresoClave" type="password" autocomplete="current-password" required>
+          <button type="button" class="ingreso-ver" id="ingresoVer">Ver</button>
+        </div>
+      </div>
+      <p class="ingreso-error" id="ingresoError" role="alert"></p>
+      <button type="submit" class="btn btn-primary ingreso-entrar" id="ingresoEntrar">Entrar</button>
+    </form>
+    <div class="ingreso-links">
+      <a href="https://app.docentes360.com.ar/">¿Olvidaste tu contraseña?</a>
+      <a href="https://app.docentes360.com.ar/">¿No tenés cuenta? Probala 15 días gratis</a>
+    </div>
+  </div>
+</div>
 
 <script>
   const navToggle = document.getElementById('navToggle');
@@ -805,6 +884,107 @@
       if (bars[i]) bars[i].style.height = next.bar + '%';
       updateSummary();
     });
+  });
+
+  // ---------- Ingresar desde la página ----------
+  // Se inicia sesión acá con Supabase y se pasa a la app con la sesión ya
+  // abierta (la app la toma sola de la dirección), así el docente no tiene
+  // que volver a escribir su mail y contraseña.
+  const APP_URL = 'https://app.docentes360.com.ar/';
+  const SUPABASE_URL = 'https://tgfjjgffehkjgrlgfqnl.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_lCLcocDDx9cpE8ov6onUHA_RAjpaAt1'; // clave pública ("publishable"), es la misma que usa la app
+  const ingreso = document.getElementById('ingreso');
+  const ingresoForm = document.getElementById('ingresoForm');
+  const ingresoEmail = document.getElementById('ingresoEmail');
+  const ingresoClave = document.getElementById('ingresoClave');
+  const ingresoError = document.getElementById('ingresoError');
+  const ingresoEntrar = document.getElementById('ingresoEntrar');
+  let supabaseCargado = null;
+
+  function cargarSupabase() {
+    if (!supabaseCargado) {
+      supabaseCargado = new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
+        s.onload = () => resolve(window.supabase);
+        s.onerror = () => { supabaseCargado = null; reject(new Error('sin conexión')); };
+        document.head.appendChild(s);
+      });
+    }
+    return supabaseCargado;
+  }
+
+  function abrirIngreso(e) {
+    if (e) e.preventDefault();
+    nav.classList.remove('open');
+    ingreso.classList.add('abierto');
+    ingresoError.classList.remove('visible');
+    cargarSupabase().catch(() => {});
+    setTimeout(() => ingresoEmail.focus(), 50);
+  }
+  function cerrarIngreso() { ingreso.classList.remove('abierto'); }
+  function mostrarError(texto) {
+    ingresoError.textContent = texto;
+    ingresoError.classList.add('visible');
+  }
+
+  document.querySelectorAll('[data-abrir-ingreso]').forEach((el) => el.addEventListener('click', abrirIngreso));
+  document.getElementById('ingresoCerrar').addEventListener('click', cerrarIngreso);
+  ingreso.addEventListener('click', (e) => { if (e.target === ingreso) cerrarIngreso(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarIngreso(); });
+  if (location.hash === '#ingresar') abrirIngreso();
+
+  document.getElementById('ingresoVer').addEventListener('click', (e) => {
+    const ver = ingresoClave.type === 'password';
+    ingresoClave.type = ver ? 'text' : 'password';
+    e.currentTarget.textContent = ver ? 'Ocultar' : 'Ver';
+  });
+
+  ingresoForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    ingresoError.classList.remove('visible');
+    const email = ingresoEmail.value.trim();
+    const clave = ingresoClave.value;
+    if (!email || !clave) {
+      mostrarError('Escribí tu email y tu contraseña.');
+      return;
+    }
+    ingresoEntrar.disabled = true;
+    ingresoEntrar.textContent = 'Entrando...';
+    try {
+      const sb = await cargarSupabase();
+      const cliente = sb.createClient(SUPABASE_URL, SUPABASE_KEY, {
+        auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+      });
+      const { data, error } = await cliente.auth.signInWithPassword({ email, password: clave });
+      if (error || !data.session) {
+        const msg = (error && error.message || '').toLowerCase();
+        if (msg.includes('not confirmed')) {
+          mostrarError('Todavía no confirmaste tu email. Revisá tu correo (y la carpeta de Spam) y tocá el enlace que te mandamos.');
+        } else if (msg.includes('invalid')) {
+          mostrarError('Email o contraseña incorrectos. Si te olvidaste la contraseña, tocá "¿Olvidaste tu contraseña?" y revisá también la carpeta de Spam.');
+        } else {
+          mostrarError('No se pudo ingresar. Revisá la conexión y probá de nuevo.');
+        }
+        ingresoEntrar.disabled = false;
+        ingresoEntrar.textContent = 'Entrar';
+        return;
+      }
+      const s = data.session;
+      const params = new URLSearchParams({
+        access_token: s.access_token,
+        refresh_token: s.refresh_token,
+        expires_in: String(s.expires_in),
+        expires_at: String(s.expires_at),
+        token_type: s.token_type || 'bearer',
+        type: 'signin',
+      });
+      location.href = APP_URL + '#' + params.toString();
+    } catch (err) {
+      mostrarError('No se pudo ingresar. Revisá la conexión y probá de nuevo.');
+      ingresoEntrar.disabled = false;
+      ingresoEntrar.textContent = 'Entrar';
+    }
   });
 </script>
 
