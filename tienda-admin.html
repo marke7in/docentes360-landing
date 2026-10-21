@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Panel de la Tienda — Docentes360</title>
+<style>
+  :root { --board-dark:#1F332B; --paper:#F2EFE6; --paper-deep:#E8E3D4; --ink:#1F2B26; --yellow:#E8B94A; --line:rgba(31,43,38,0.15); }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background: var(--paper); color: var(--ink); }
+  header { background: var(--board-dark); color: var(--paper); padding: 14px 18px; display:flex; align-items:center; justify-content:space-between; gap: 10px; }
+  header b { font-size: 1.05rem; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 18px; }
+  .caja { background:#fff; border:1px solid var(--line); border-radius: 12px; padding: 16px; margin-bottom: 14px; }
+  h2 { font-size: 1.15rem; margin: 0 0 12px; }
+  label { display:block; font-weight:700; font-size:0.85rem; margin: 10px 0 4px; }
+  input[type=text], input[type=email], input[type=password], input[type=number], textarea, select { width:100%; padding:10px 11px; border:1.5px solid var(--line); border-radius:8px; font: inherit; background: var(--paper); }
+  textarea { min-height: 80px; resize: vertical; }
+  .fila { display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 600px) { .fila { grid-template-columns: 1fr; } }
+  .btn { display:inline-flex; align-items:center; gap:6px; padding: 10px 16px; border-radius: 8px; border: none; font: inherit; font-weight: 700; cursor: pointer; background: var(--board-dark); color: var(--paper); }
+  .btn.sec { background: transparent; color: var(--ink); border: 1.5px solid var(--line); }
+  .btn.amarillo { background: var(--yellow); color: var(--board-dark); }
+  .btn.chico { padding: 6px 10px; font-size: 0.82rem; }
+  .btn[disabled] { opacity: .6; cursor: default; }
+  .tabs { display:flex; gap: 8px; margin-bottom: 14px; }
+  .tabs .btn { background: transparent; color: var(--ink); border: 1.5px solid var(--line); }
+  .tabs .btn.activo { background: var(--board-dark); color: var(--paper); border-color: var(--board-dark); }
+  .item { display:flex; align-items:center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
+  .item:first-child { border-top: none; }
+  .mini { width: 52px; height: 52px; border-radius: 8px; flex-shrink:0; background: #3E6E5C; object-fit: cover; }
+  .item .txt { flex:1; min-width:0; }
+  .item .tit { font-weight:700; }
+  .item .sub { font-size: 0.82rem; opacity: .7; }
+  .badge { display:inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; }
+  .badge.on { background:#DCEFE3; color:#1F5A37; } .badge.off { background:#EEE; color:#666; }
+  .badge.pagada { background:#DCEFE3; color:#1F5A37; } .badge.pendiente { background:#FFF4D6; color:#6B5414; }
+  .msg { padding: 10px 12px; border-radius: 8px; font-weight: 600; margin: 10px 0; display:none; }
+  .msg.ok { background:#DCEFE3; color:#1F5A37; display:block; } .msg.error { background:#F7DAD6; color:#8A2420; display:block; }
+  .muestras { display:flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  .muestras div { position: relative; }
+  .muestras img { height: 90px; border-radius: 6px; border: 1px solid var(--line); }
+  .muestras button { position:absolute; top: 2px; right: 2px; border:none; background: rgba(0,0,0,.6); color:#fff; border-radius: 50%; width: 22px; height: 22px; cursor:pointer; }
+  .check { display:flex; align-items:center; gap: 8px; font-weight: 700; margin-top: 12px; }
+  .resumen-ventas { display:flex; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+  .resumen-ventas div { background: var(--paper); border-radius: 8px; padding: 10px 14px; }
+  .resumen-ventas b { display:block; font-size: 1.3rem; }
+  .ayuda { font-size: 0.8rem; opacity: .7; margin-top: 4px; }
+</style>
+</head>
+<body>
+<header><b>Panel de la Tienda</b><span id="quien" style="font-size:.85rem;opacity:.8"></span></header>
+<div class="wrap">
+
+  <div class="caja" id="login" style="max-width:420px;margin:30px auto">
+    <h2>Ingresá con tu cuenta de administrador</h2>
+    <label for="lEmail">Email</label><input id="lEmail" type="email" autocomplete="email">
+    <label for="lClave">Contraseña</label><input id="lClave" type="password" autocomplete="current-password">
+    <div class="msg" id="lMsg"></div>
+    <p><button class="btn" id="lEntrar">Entrar</button></p>
+  </div>
+
+  <div id="panel" style="display:none">
+    <div class="tabs">
+      <button class="btn activo" data-tab="materiales">Materiales</button>
+      <button class="btn" data-tab="ventas">Ventas</button>
+      <a class="btn sec" href="tienda.html" target="_blank" style="text-decoration:none;margin-left:auto">Ver la Tienda ↗</a>
+    </div>
+
+    <div id="tabMateriales">
+      <div class="caja">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+          <h2 style="margin:0">Tus materiales</h2>
+          <button class="btn amarillo" id="btnNuevo">+ Nuevo material</button>
+        </div>
+        <div id="listaMateriales" style="margin-top:10px"></div>
+      </div>
+
+      <div class="caja" id="form" style="display:none">
+        <h2 id="formTitulo">Nuevo material</h2>
+        <label for="fTitulo">Título</label><input id="fTitulo" type="text" maxlength="90" placeholder="Ej: Planificación anual de Matemática 4°">
+        <label for="fId">Código para el enlace</label><input id="fId" type="text" placeholder="se completa solo">
+        <div class="ayuda">Queda en el enlace para compartir: docentes360.com.ar/tienda.html#<span id="fIdVista"></span>. No se puede cambiar después.</div>
+        <label for="fResumen">Resumen corto (se ve en la tarjeta)</label><input id="fResumen" type="text" maxlength="140">
+        <label for="fDescripcion">Descripción completa (opcional)</label><textarea id="fDescripcion"></textarea>
+        <div class="fila">
+          <div><label for="fNivel">Nivel</label>
+            <select id="fNivel"><option>Inicial</option><option selected>Primario</option><option>Secundario</option><option>Superior</option><option>Todos los niveles</option></select></div>
+          <div><label for="fArea">Área</label><input id="fArea" type="text" list="areas" placeholder="Ej: Matemática">
+            <datalist id="areas"><option>Matemática</option><option>Prácticas del Lenguaje</option><option>Ciencias Naturales</option><option>Ciencias Sociales</option><option>Inglés</option><option>Educación Física</option><option>Música</option><option>Plástica</option><option>Tecnología</option><option>Varias</option></datalist></div>
+        </div>
+        <div class="fila">
+          <div><label for="fPrecio">Precio ($)</label><input id="fPrecio" type="number" min="1" step="1" placeholder="2500"></div>
+          <div><label for="fPaginas">Páginas</label><input id="fPaginas" type="number" min="1" step="1"></div>
+        </div>
+        <div class="fila">
+          <div><label for="fColor">Color de la tarjeta (si no tiene portada)</label><input id="fColor" type="color" value="#3E6E5C" style="height:42px;padding:2px"></div>
+          <div><label for="fOrden">Orden (los más bajos van primero)</label><input id="fOrden" type="number" step="1" value="0"></div>
+        </div>
+        <label for="fIncluye">Qué incluye (uno por renglón)</label><textarea id="fIncluye" placeholder="Planificación anual completa&#10;Criterios de evaluación"></textarea>
+
+        <label for="fPortada">Imagen de portada (opcional, JPG o PNG)</label>
+        <input id="fPortada" type="file" accept="image/png,image/jpeg,image/webp">
+        <div class="muestras" id="portadaVista"></div>
+
+        <label for="fMuestras">Páginas de muestra (imágenes, podés elegir varias)</label>
+        <input id="fMuestras" type="file" accept="image/png,image/jpeg,image/webp" multiple>
+        <div class="muestras" id="muestrasVista"></div>
+        <div class="ayuda">Tip: exportá 2 o 3 páginas del PDF como imagen (no las mejores todas, que quieran comprarlo 😉).</div>
+
+        <label for="fPdf">Archivo PDF que se vende</label>
+        <input id="fPdf" type="file" accept="application/pdf">
+        <div class="ayuda" id="pdfActual"></div>
+
+        <label class="check"><input type="checkbox" id="fActivo"> Publicado en la Tienda</label>
+        <div class="ayuda">Si no está tildado, queda guardado pero nadie lo ve.</div>
+
+        <div class="msg" id="fMsg"></div>
+        <p style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" id="btnGuardar">Guardar</button>
+          <button class="btn sec" id="btnCancelar">Cancelar</button>
+        </p>
+      </div>
+    </div>
+
+    <div id="tabVentas" style="display:none">
+      <div class="caja">
+        <h2>Ventas</h2>
+        <div class="resumen-ventas" id="resumenVentas"></div>
+        <div class="msg" id="vMsg"></div>
+        <div id="listaVentas"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+  const SUPABASE_URL = "https://tgfjjgffehkjgrlgfqnl.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_lCLcocDDx9cpE8ov6onUHA_RAjpaAt1";
+  const ADMIN_UID = "eada8be4-1423-4c28-aeb5-861dc21a9cd7";
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: true, storageKey: "tienda-admin" } });
+  const $ = (id) => document.getElementById(id);
+  const esc = (t) => String(t ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  const pesos = (n) => "$" + Number(n || 0).toLocaleString("es-AR");
+  let materiales = [];
+  let editando = null; // material que se está editando (null = nuevo)
+  let muestrasActuales = [];
+  let portadaActual = null;
+
+  function mensaje(id, texto, tipo) {
+    const el = $(id);
+    el.className = "msg " + (tipo || "");
+    el.textContent = texto || "";
+  }
+  const slug = (t) => String(t).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/°/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60);
+
+  async function entrar() {
+    mensaje("lMsg", "");
+    $("lEntrar").disabled = true;
+    const { data, error } = await sb.auth.signInWithPassword({ email: $("lEmail").value.trim(), password: $("lClave").value });
+    $("lEntrar").disabled = false;
+    if (error || !data.session) return mensaje("lMsg", "Email o contraseña incorrectos.", "error");
+    iniciar(data.session);
+  }
+  async function iniciar(session) {
+    if (!session || session.user.id !== ADMIN_UID) {
+      if (session) { await sb.auth.signOut(); mensaje("lMsg", "Esta cuenta no es la de administrador.", "error"); }
+      return;
+    }
+    $("login").style.display = "none";
+    $("panel").style.display = "";
+    $("quien").innerHTML = `${esc(session.user.email)} · <a href="#" id="salir" style="color:inherit">Salir</a>`;
+    $("salir").onclick = async (e) => { e.preventDefault(); await sb.auth.signOut(); location.reload(); };
+    await cargarMateriales();
+  }
+
+  // ---------- Materiales ----------
+  async function cargarMateriales() {
+    const { data, error } = await sb.from("tienda_materiales").select("*").order("orden").order("created_at", { ascending: false });
+    if (error) { $("listaMateriales").innerHTML = `<div class="msg error" style="display:block">No se pudieron cargar: ${esc(error.message)}. ¿Corriste el SQL de la tienda?</div>`; return; }
+    materiales = data || [];
+    $("listaMateriales").innerHTML = materiales.length ? materiales.map((m) => `
+      <div class="item">
+        ${m.portada_url ? `<img class="mini" src="${esc(m.portada_url)}" alt="">` : `<div class="mini" style="background:${esc(m.color || "#3E6E5C")}"></div>`}
+        <div class="txt">
+          <div class="tit">${esc(m.titulo)}</div>
+          <div class="sub">${pesos(m.precio)} · ${esc(m.nivel || "")} ${m.area ? "· " + esc(m.area) : ""} · ${m.archivo_path ? "PDF cargado" : "⚠️ falta el PDF"}</div>
+        </div>
+        <span class="badge ${m.activo ? "on" : "off"}">${m.activo ? "Publicado" : "Oculto"}</span>
+        <button class="btn sec chico" data-editar="${esc(m.id)}">Editar</button>
+      </div>`).join("") : '<div class="sub">Todavía no cargaste materiales. Tocá "+ Nuevo material".</div>';
+    document.querySelectorAll("[data-editar]").forEach((b) => (b.onclick = () => abrirForm(materiales.find((m) => m.id === b.dataset.editar))));
+  }
+
+  function dibujarImagenes() {
+    $("portadaVista").innerHTML = portadaActual ? `<div><img src="${esc(portadaActual)}" alt=""><button title="Quitar" id="quitarPortada">×</button></div>` : "";
+    if ($("quitarPortada")) $("quitarPortada").onclick = () => { portadaActual = null; dibujarImagenes(); };
+    $("muestrasVista").innerHTML = muestrasActuales.map((u, i) => `<div><img src="${esc(u)}" alt=""><button title="Quitar" data-quitar="${i}">×</button></div>`).join("");
+    document.querySelectorAll("[data-quitar]").forEach((b) => (b.onclick = () => { muestrasActuales.splice(Number(b.dataset.quitar), 1); dibujarImagenes(); }));
+  }
+
+  function abrirForm(m) {
+    editando = m || null;
+    $("form").style.display = "";
+    $("formTitulo").textContent = m ? "Editar material" : "Nuevo material";
+    $("fTitulo").value = m?.titulo || "";
+    $("fId").value = m?.id || "";
+    $("fId").disabled = !!m;
+    $("fIdVista").textContent = m?.id || "";
+    $("fResumen").value = m?.resumen || "";
+    $("fDescripcion").value = m?.descripcion || "";
+    $("fNivel").value = m?.nivel || "Primario";
+    $("fArea").value = m?.area || "";
+    $("fPrecio").value = m?.precio || "";
+    $("fPaginas").value = m?.paginas || "";
+    $("fColor").value = m?.color || "#3E6E5C";
+    $("fOrden").value = m?.orden ?? 0;
+    $("fIncluye").value = (m?.incluye || []).join("\n");
+    $("fActivo").checked = !!m?.activo;
+    $("fPortada").value = ""; $("fMuestras").value = ""; $("fPdf").value = "";
+    portadaActual = m?.portada_url || null;
+    muestrasActuales = [...(m?.muestras || [])];
+    $("pdfActual").textContent = m?.archivo_path ? "Ya tiene un PDF cargado. Si elegís otro, se reemplaza." : "Todavía no tiene PDF.";
+    mensaje("fMsg", "");
+    dibujarImagenes();
+    $("form").scrollIntoView({ behavior: "smooth" });
+  }
+
+  $("fTitulo").addEventListener("input", () => {
+    if (!editando) { $("fId").value = slug($("fTitulo").value); $("fIdVista").textContent = $("fId").value; }
+  });
+  $("fId").addEventListener("input", () => { $("fId").value = slug($("fId").value); $("fIdVista").textContent = $("fId").value; });
+
+  async function subir(bucket, ruta, archivo) {
+    const { error } = await sb.storage.from(bucket).upload(ruta, archivo, { upsert: true, contentType: archivo.type });
+    if (error) throw new Error(`No se pudo subir ${archivo.name}: ${error.message}`);
+    if (bucket === "tienda-imagenes") return sb.storage.from(bucket).getPublicUrl(ruta).data.publicUrl;
+    return ruta;
+  }
+  const ext = (f) => (f.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
+
+  async function guardar() {
+    const id = $("fId").value.trim();
+    const titulo = $("fTitulo").value.trim();
+    const precio = Math.round(Number($("fPrecio").value));
+    if (!titulo) return mensaje("fMsg", "Poné un título.", "error");
+    if (!id) return mensaje("fMsg", "Falta el código para el enlace.", "error");
+    if (!editando && materiales.some((m) => m.id === id)) return mensaje("fMsg", "Ya hay un material con ese código. Cambialo un poco.", "error");
+    if (!precio || precio < 1) return mensaje("fMsg", "Poné un precio válido.", "error");
+    const pdf = $("fPdf").files[0];
+    if (pdf && pdf.size > 50 * 1024 * 1024) return mensaje("fMsg", "El PDF pesa más de 50 MB. Achicalo antes de subirlo.", "error");
+    if ($("fActivo").checked && !pdf && !editando?.archivo_path) return mensaje("fMsg", "Para publicarlo tenés que subir el PDF.", "error");
+
+    $("btnGuardar").disabled = true;
+    mensaje("fMsg", "Guardando… (si subís archivos puede tardar un poco)", "ok");
+    try {
+      const marca = Date.now();
+      let archivo_path = editando?.archivo_path || null;
+      if (pdf) archivo_path = await subir("tienda-pdf", `${id}/${marca}.pdf`, pdf);
+      const portada = $("fPortada").files[0];
+      if (portada) portadaActual = await subir("tienda-imagenes", `${id}/portada-${marca}.${ext(portada)}`, portada);
+      const nuevas = Array.from($("fMuestras").files);
+      for (let i = 0; i < nuevas.length; i++) {
+        muestrasActuales.push(await subir("tienda-imagenes", `${id}/muestra-${marca}-${i}.${ext(nuevas[i])}`, nuevas[i]));
+      }
+      const fila = {
+        id,
+        titulo,
+        resumen: $("fResumen").value.trim() || null,
+        descripcion: $("fDescripcion").value.trim() || null,
+        nivel: $("fNivel").value,
+        area: $("fArea").value.trim() || null,
+        precio,
+        paginas: Number($("fPaginas").value) || null,
+        color: $("fColor").value,
+        orden: Number($("fOrden").value) || 0,
+        incluye: $("fIncluye").value.split("\n").map((x) => x.trim()).filter(Boolean),
+        portada_url: portadaActual,
+        muestras: muestrasActuales,
+        archivo_path,
+        activo: $("fActivo").checked,
+      };
+      const { error } = await sb.from("tienda_materiales").upsert(fila);
+      if (error) throw new Error(error.message);
+      mensaje("fMsg", "¡Guardado! ✅", "ok");
+      await cargarMateriales();
+      editando = materiales.find((m) => m.id === id) || null;
+      $("fId").disabled = true;
+      $("fPortada").value = ""; $("fMuestras").value = ""; $("fPdf").value = "";
+      $("pdfActual").textContent = editando?.archivo_path ? "Ya tiene un PDF cargado. Si elegís otro, se reemplaza." : "";
+      dibujarImagenes();
+    } catch (e) {
+      mensaje("fMsg", e.message || "No se pudo guardar.", "error");
+    }
+    $("btnGuardar").disabled = false;
+  }
+
+  // ---------- Ventas ----------
+  async function cargarVentas() {
+    const { data, error } = await sb.from("tienda_ventas").select("*").order("created_at", { ascending: false }).limit(300);
+    if (error) { $("listaVentas").innerHTML = `<div class="msg error" style="display:block">${esc(error.message)}</div>`; return; }
+    const ventas = data || [];
+    const titulo = (id) => materiales.find((m) => m.id === id)?.titulo || id || "(borrado)";
+    const pagadas = ventas.filter((v) => v.estado === "pagada");
+    const ahora = new Date();
+    const delMes = pagadas.filter((v) => { const d = new Date(v.pagado_at || v.created_at); return d.getMonth() === ahora.getMonth() && d.getFullYear() === ahora.getFullYear(); });
+    $("resumenVentas").innerHTML = `
+      <div>Este mes<b>${delMes.length} · ${pesos(delMes.reduce((a, v) => a + v.monto, 0))}</b></div>
+      <div>Total<b>${pagadas.length} · ${pesos(pagadas.reduce((a, v) => a + v.monto, 0))}</b></div>`;
+    $("listaVentas").innerHTML = ventas.length ? ventas.map((v) => `
+      <div class="item">
+        <div class="txt">
+          <div class="tit">${esc(titulo(v.material_id))}</div>
+          <div class="sub">${new Date(v.created_at).toLocaleString("es-AR")} · ${esc(v.email)} · ${pesos(v.monto)}${v.estado === "pagada" ? ` · ${v.descargas} descarga${v.descargas === 1 ? "" : "s"}${v.mail_enviado ? "" : " · ⚠️ mail sin enviar"}` : ""}</div>
+        </div>
+        <span class="badge ${v.estado === "pagada" ? "pagada" : "pendiente"}">${v.estado === "pagada" ? "Pagada" : "Pendiente"}</span>
+        ${v.estado === "pagada"
+          ? `<button class="btn sec chico" data-reenviar="${v.id}">Reenviar mail</button>`
+          : `<button class="btn sec chico" data-manual="${v.id}" title="Solo si te pagó por otro lado">Marcar pagada</button>`}
+      </div>`).join("") : '<div class="sub">Todavía no hay ventas.</div>';
+    document.querySelectorAll("[data-reenviar]").forEach((b) => (b.onclick = () => reenviar(b.dataset.reenviar, false)));
+    document.querySelectorAll("[data-manual]").forEach((b) => (b.onclick = () => reenviar(b.dataset.manual, true)));
+  }
+
+  async function reenviar(ventaId, marcarPagada) {
+    if (marcarPagada && !confirm("¿Marcar esta venta como pagada y mandarle el PDF? Hacelo solo si ya te pagó por otro lado.")) return;
+    const email = prompt("¿A qué mail lo mandamos? (dejalo vacío para usar el mismo)", "");
+    if (email === null) return;
+    mensaje("vMsg", "Enviando…", "ok");
+    const { data: { session } } = await sb.auth.getSession();
+    try {
+      const resp = await fetch("/api/tienda-reenviar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${session?.access_token}` },
+        body: JSON.stringify({ ventaId, email: email.trim(), marcarPagada }),
+      });
+      const datos = await resp.json();
+      if (!resp.ok) throw new Error(datos.error || "No se pudo enviar.");
+      mensaje("vMsg", `Listo, se lo mandamos a ${datos.email} ✅`, "ok");
+      cargarVentas();
+    } catch (e) {
+      mensaje("vMsg", e.message, "error");
+    }
+  }
+
+  // ---------- Arranque ----------
+  document.querySelectorAll(".tabs [data-tab]").forEach((b) => (b.onclick = () => {
+    document.querySelectorAll(".tabs [data-tab]").forEach((x) => x.classList.toggle("activo", x === b));
+    $("tabMateriales").style.display = b.dataset.tab === "materiales" ? "" : "none";
+    $("tabVentas").style.display = b.dataset.tab === "ventas" ? "" : "none";
+    if (b.dataset.tab === "ventas") cargarVentas();
+  }));
+  $("lEntrar").onclick = entrar;
+  $("lClave").addEventListener("keydown", (e) => { if (e.key === "Enter") entrar(); });
+  $("btnNuevo").onclick = () => abrirForm(null);
+  $("btnCancelar").onclick = () => { $("form").style.display = "none"; };
+  $("btnGuardar").onclick = guardar;
+  sb.auth.getSession().then(({ data }) => { if (data.session) iniciar(data.session); });
+</script>
+</body>
+</html>

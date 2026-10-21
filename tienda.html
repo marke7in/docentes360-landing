@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tienda de materiales — Docentes360</title>
+<meta name="description" content="Materiales listos para usar en el aula: planificaciones, fichas y evaluaciones en PDF. Pagás con Mercado Pago y te llega por mail.">
+<meta name="theme-color" content="#1F332B">
+<link rel="canonical" href="https://docentes360.com.ar/tienda.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="Docentes360">
+<meta property="og:url" content="https://docentes360.com.ar/tienda.html">
+<meta property="og:title" content="Tienda de materiales — Docentes360">
+<meta property="og:description" content="Planificaciones, fichas y evaluaciones en PDF listas para usar en el aula. Pagás con Mercado Pago y te llega por mail.">
+<meta property="og:image" content="https://docentes360.com.ar/og.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%231F332B'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Georgia,serif' font-size='36' font-weight='700' fill='%23E8B94A'%3ED%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --board: #2B4339;
+    --board-dark: #1F332B;
+    --paper: #F2EFE6;
+    --paper-deep: #E8E3D4;
+    --ink: #1F2B26;
+    --chalk-yellow: #E8B94A;
+    --chalk-coral: #D9695A;
+    --chalk-mint: #7FB89A;
+    --line-paper: rgba(31, 43, 38, 0.14);
+    --max-w: 1080px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Public Sans', sans-serif; color: var(--ink); background: var(--paper); line-height: 1.55; }
+  h1, h2, h3 { font-family: 'Fraunces', serif; line-height: 1.15; margin: 0; font-weight: 600; }
+  a { color: inherit; }
+  .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 20px; }
+  :focus-visible { outline: 3px solid var(--chalk-yellow); outline-offset: 3px; }
+
+  /* Nav (igual que la página principal) */
+  .nav { position: sticky; top: 0; z-index: 20; background: var(--board-dark); box-shadow: 0 2px 14px rgba(0,0,0,0.25); }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 12px; }
+  .brand { font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 700; text-decoration: none; color: var(--paper); }
+  .nav-links { display: flex; gap: 8px; }
+  .nav-links a { text-decoration: none; font-size: 0.86rem; font-weight: 600; color: var(--paper); padding: 8px 14px; border-radius: 20px; background: rgba(242,239,230,0.1); border: 1px solid rgba(242,239,230,0.16); white-space: nowrap; }
+  .nav-links a.activo { background: var(--chalk-yellow); color: var(--board-dark); border-color: var(--chalk-yellow); }
+  @media (max-width: 560px) { .nav-links a.solo-ancho { display: none; } }
+
+  /* Encabezado */
+  .cabecera { background: linear-gradient(115deg, #1F332B 0%, #2B4339 40%, #3E6E5C 75%, #C97A5C 100%); color: var(--paper); padding: 46px 0 54px; }
+  .cabecera .kicker { color: var(--chalk-yellow); font-weight: 700; letter-spacing: 0.12em; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px; }
+  .cabecera h1 { font-size: clamp(2rem, 5vw, 3.1rem); font-weight: 700; max-width: 18ch; }
+  .cabecera p { max-width: 50ch; font-size: 1.05rem; opacity: 0.92; margin: 14px 0 0; }
+  .pasos { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+  .paso { display: flex; align-items: center; gap: 8px; background: rgba(242,239,230,0.14); border: 1px solid rgba(242,239,230,0.25); padding: 8px 14px; border-radius: 30px; font-size: 0.86rem; font-weight: 600; }
+  .paso b { display: inline-flex; width: 22px; height: 22px; border-radius: 50%; background: var(--chalk-yellow); color: var(--board-dark); align-items: center; justify-content: center; font-size: 0.78rem; }
+
+  /* Filtros */
+  .filtros { padding: 26px 0 6px; }
+  .filtro-fila { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; align-items: center; }
+  .filtro-fila span.tit { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.6; margin-right: 4px; min-width: 52px; }
+  .chip { border: 1.5px solid var(--line-paper); background: #FFFFFF; color: var(--ink); padding: 7px 14px; border-radius: 20px; font-family: inherit; font-weight: 600; font-size: 0.85rem; cursor: pointer; }
+  .chip.activo { background: var(--board-dark); color: var(--paper); border-color: var(--board-dark); }
+
+  /* Grilla de materiales */
+  .grilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 18px; padding: 14px 0 50px; }
+  .tarjeta { background: #FFFFFF; border: 1px solid var(--line-paper); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: transform 0.12s ease, box-shadow 0.15s ease; text-align: left; font-family: inherit; padding: 0; color: inherit; }
+  .tarjeta:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -14px rgba(0,0,0,0.3); }
+  .portada { aspect-ratio: 4 / 3; position: relative; display: flex; align-items: flex-end; padding: 16px; overflow: hidden; }
+  .portada .hoja { position: absolute; right: 16px; top: 16px; width: 30%; aspect-ratio: 0.72; background: #FFFFFF; border-radius: 4px; box-shadow: 0 8px 18px rgba(0,0,0,0.25); transform: rotate(6deg); padding: 8px; }
+  .portada .hoja i { display: block; height: 4px; border-radius: 2px; background: #DDD6C4; margin-bottom: 5px; }
+  .portada .hoja i:first-child { width: 70%; background: currentColor; opacity: 0.6; height: 6px; }
+  .portada .hoja i:nth-child(3) { width: 85%; }
+  .portada .hoja i:nth-child(5) { width: 60%; }
+  .portada h3 { position: relative; color: #FFFFFF; font-size: 1.08rem; max-width: 62%; text-shadow: 0 1px 2px rgba(0,0,0,0.25); }
+  .info { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .etiquetas { display: flex; gap: 6px; flex-wrap: wrap; }
+  .etiqueta { font-size: 0.72rem; font-weight: 700; padding: 3px 9px; border-radius: 10px; background: var(--paper-deep); }
+  .resumen { font-size: 0.86rem; opacity: 0.8; margin: 0; }
+  .pie-tarjeta { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 6px; }
+  .precio { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.3rem; }
+  .paginas { font-size: 0.78rem; opacity: 0.65; }
+  @media (max-width: 560px) {
+    .grilla { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .tarjeta .portada { padding: 10px; aspect-ratio: 1 / 1; }
+    .tarjeta .portada h3 { font-size: 0.92rem; max-width: 100%; }
+    .tarjeta .portada .hoja { width: 28%; right: 10px; top: 10px; padding: 5px; }
+    .info { padding: 10px 12px 12px; gap: 6px; }
+    .resumen { display: none; }
+    .etiqueta { font-size: 0.66rem; padding: 2px 7px; }
+    .precio { font-size: 1.1rem; }
+    .paginas { font-size: 0.7rem; }
+  }
+  .vacio { grid-column: 1 / -1; text-align: center; padding: 40px 0; opacity: 0.7; }
+
+  /* Banda de la app */
+  .banda { background: var(--board-dark); color: var(--paper); padding: 34px 0; }
+  .banda .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+  .banda h2 { font-size: 1.4rem; max-width: 26ch; }
+  .banda p { margin: 6px 0 0; opacity: 0.8; font-size: 0.95rem; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 22px; border-radius: 8px; font-weight: 700; font-size: 0.98rem; text-decoration: none; border: none; cursor: pointer; font-family: inherit; }
+  .btn-amarillo { background: var(--chalk-yellow); color: var(--board-dark); }
+  .btn-mp { background: #009EE3; color: #FFFFFF; width: 100%; font-size: 1.02rem; }
+  .btn-mp:hover { background: #008ACB; }
+
+  footer { background: #17271F; color: var(--paper); padding: 30px 0; font-size: 0.86rem; }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  footer a { opacity: 0.75; text-decoration: none; margin-right: 16px; }
+
+  /* Ventana del material */
+  .fondo { position: fixed; inset: 0; background: rgba(15, 25, 20, 0.6); display: none; align-items: flex-end; justify-content: center; z-index: 50; }
+  .fondo.abierto { display: flex; }
+  @media (min-width: 720px) { .fondo { align-items: center; } }
+  .ventana { background: var(--paper); width: 100%; max-width: 720px; max-height: 92vh; overflow-y: auto; border-radius: 18px 18px 0 0; }
+  @media (min-width: 720px) { .ventana { border-radius: 16px; } }
+  .ventana .portada { aspect-ratio: auto; height: 190px; }
+  .ventana .portada h3 { font-size: 1.5rem; }
+  .cerrar { position: absolute; top: 12px; left: 12px; width: 36px; height: 36px; border-radius: 50%; border: none; background: rgba(0,0,0,0.35); color: #FFFFFF; font-size: 1.3rem; cursor: pointer; z-index: 2; }
+  .cuerpo { padding: 20px 22px 26px; }
+  .cuerpo p { margin: 8px 0 16px; }
+  .muestras { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; margin: 4px 0 18px; }
+  .muestra { flex: 0 0 120px; aspect-ratio: 0.72; background: #FFFFFF; border: 1px solid var(--line-paper); border-radius: 6px; padding: 10px; position: relative; }
+  .muestra i { display: block; height: 5px; border-radius: 3px; background: #E3DDCB; margin-bottom: 7px; }
+  .muestra i:first-child { width: 60%; height: 8px; background: #C9BFA4; }
+  .muestra i:nth-child(4) { width: 75%; }
+  .muestra span { position: absolute; bottom: 6px; right: 8px; font-size: 0.7rem; opacity: 0.55; }
+  .muestra.borrosa::after { content: "Vista previa"; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(242,239,230,0.55); backdrop-filter: blur(2px); font-size: 0.72rem; font-weight: 700; border-radius: 6px; }
+  .incluye { list-style: none; padding: 0; margin: 0 0 18px; display: grid; gap: 6px; }
+  .incluye li { display: flex; gap: 8px; font-size: 0.92rem; }
+  .incluye li::before { content: "✓"; color: #3E6E5C; font-weight: 800; }
+  .compra { background: #FFFFFF; border: 1px solid var(--line-paper); border-radius: 12px; padding: 16px; }
+  .compra-fila { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; }
+  .compra-fila .precio { font-size: 1.7rem; }
+  .compra small { display: block; text-align: center; margin-top: 10px; opacity: 0.7; font-size: 0.8rem; }
+  .campo { display: block; margin-bottom: 12px; }
+  .campo label { display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 5px; }
+  .campo input { width: 100%; padding: 11px 12px; border-radius: 8px; border: 1.5px solid var(--line-paper); font-family: inherit; font-size: 0.95rem; background: var(--paper); }
+  .portada img.foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .portada.con-foto h3 { display: none; }
+  .muestra-img { flex: 0 0 auto; height: 170px; border-radius: 6px; border: 1px solid var(--line-paper); background: #FFFFFF; }
+  .estado-compra { margin: 18px 0 0; padding: 14px 16px; border-radius: 10px; font-weight: 600; }
+  .estado-compra.ok { background: #DCEFE3; color: #1F5A37; }
+  .estado-compra.pendiente { background: #FFF4D6; color: #6B5414; }
+  .estado-compra.error { background: #F7DAD6; color: #8A2420; }
+  .error-compra { margin-top: 10px; color: #8A2420; font-size: 0.85rem; font-weight: 600; display: none; }
+  .btn-mp[disabled] { opacity: 0.65; cursor: default; }
+  .compartir { background: none; border: none; color: #2B4339; font-weight: 700; font-size: 0.85rem; cursor: pointer; padding: 0; text-decoration: underline; margin-top: 12px; font-family: inherit; }
+  .aviso-demo { margin-top: 12px; background: #FFF4D6; border: 1px solid #E8CF8A; color: #6B5414; border-radius: 8px; padding: 10px 12px; font-size: 0.82rem; display: none; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a href="index.html" class="brand">Docentes360</a>
+    <div class="nav-links">
+      <a href="index.html#funciones" class="solo-ancho">La app</a>
+      <a href="tienda.html" class="activo">Tienda</a>
+      <a href="https://app.docentes360.com.ar/">Probar gratis</a>
+    </div>
+  </div>
+</nav>
+
+<header class="cabecera">
+  <div class="wrap">
+    <div class="kicker">Tienda de materiales</div>
+    <h1>Material listo para usar en el aula</h1>
+    <p>Planificaciones, fichas y evaluaciones en PDF, hechas por un docente para docentes. Las descargás, las imprimís y listo.</p>
+    <div class="pasos">
+      <div class="paso"><b>1</b> Elegís el material</div>
+      <div class="paso"><b>2</b> Pagás con Mercado Pago</div>
+      <div class="paso"><b>3</b> Te llega por mail en el momento</div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="estadoCompra"></div>
+  <section class="filtros" aria-label="Filtros">
+    <div class="filtro-fila" id="filtroNivel"><span class="tit">Nivel</span></div>
+    <div class="filtro-fila" id="filtroArea"><span class="tit">Área</span></div>
+  </section>
+  <section class="grilla" id="grilla" aria-live="polite"></section>
+</main>
+
+<section class="banda">
+  <div class="wrap">
+    <div>
+      <h2>¿Todavía no usás Docentes360?</h2>
+      <p>Asistencia, notas, trabajos y horario en una sola app. 15 días gratis.</p>
+    </div>
+    <a class="btn btn-amarillo" href="https://app.docentes360.com.ar/">Probala gratis</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Docentes360</span>
+    <div>
+      <a href="privacidad.html">Privacidad</a>
+      <a href="mailto:marke7in@gmail.com">Contacto</a>
+    </div>
+  </div>
+</footer>
+
+<div class="fondo" id="fondo" role="dialog" aria-modal="true" aria-labelledby="vTitulo">
+  <div class="ventana" id="ventana"></div>
+</div>
+
+<script>
+  const SUPABASE_URL = "https://tgfjjgffehkjgrlgfqnl.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_lCLcocDDx9cpE8ov6onUHA_RAjpaAt1"; // clave pública ("publishable"), la misma que usa la app
+
+  let MATERIALES = [];
+  let nivelSel = "Todos";
+  let areaSel = "Todas";
+  const pesos = (n) => "$" + Number(n).toLocaleString("es-AR");
+  const esc = (t) => String(t ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+  // Mensaje al volver de Mercado Pago
+  (function () {
+    const compra = new URLSearchParams(location.search).get("compra");
+    const caja = document.getElementById("estadoCompra");
+    const textos = {
+      ok: "¡Gracias por tu compra! 🎉 En unos minutos te llega el PDF a tu mail. Si no lo ves, revisá la carpeta de Spam o Promociones.",
+      pendiente: "Tu pago quedó pendiente. Cuando Mercado Pago lo acredite, te llega el PDF a tu mail.",
+      error: "El pago no se completó. Podés intentarlo de nuevo cuando quieras.",
+    };
+    if (textos[compra]) caja.innerHTML = `<div class="estado-compra ${compra}">${textos[compra]}</div>`;
+  })();
+
+  function armarChips(contenedorId, opciones, getSel, setSel) {
+    const cont = document.getElementById(contenedorId);
+    cont.querySelectorAll(".chip").forEach((c) => c.remove());
+    opciones.forEach((op) => {
+      const b = document.createElement("button");
+      b.className = "chip" + (op === getSel() ? " activo" : "");
+      b.textContent = op;
+      b.onclick = () => {
+        setSel(op);
+        cont.querySelectorAll(".chip").forEach((c) => c.classList.toggle("activo", c.textContent === op));
+        dibujar();
+      };
+      cont.appendChild(b);
+    });
+  }
+
+  const portadaHTML = (m) => m.portada_url
+    ? `<div class="portada con-foto" style="background:${esc(m.color || "#3E6E5C")}"><img class="foto" src="${esc(m.portada_url)}" alt="${esc(m.titulo)}" loading="lazy"><h3>${esc(m.titulo)}</h3></div>`
+    : `<div class="portada" style="background:${esc(m.color || "#3E6E5C")};color:${esc(m.color || "#3E6E5C")}">
+        <div class="hoja"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <h3>${esc(m.titulo)}</h3>
+      </div>`;
+
+  const etiquetasHTML = (m, extra = "") =>
+    `<div class="etiquetas">${m.nivel ? `<span class="etiqueta">${esc(m.nivel)}</span>` : ""}${m.area ? `<span class="etiqueta">${esc(m.area)}</span>` : ""}${extra}</div>`;
+
+  function dibujar() {
+    const grilla = document.getElementById("grilla");
+    if (MATERIALES.length === 0) {
+      grilla.innerHTML = '<div class="vacio">Muy pronto vas a encontrar materiales acá. Seguinos en el <a href="https://whatsapp.com/channel/0029Vb8wajn9WtCCIjn32q3B">canal de WhatsApp</a> para enterarte primero.</div>';
+      return;
+    }
+    const lista = MATERIALES.filter((m) => (nivelSel === "Todos" || m.nivel === nivelSel) && (areaSel === "Todas" || m.area === areaSel));
+    if (lista.length === 0) {
+      grilla.innerHTML = '<div class="vacio">No hay materiales con esos filtros todavía.</div>';
+      return;
+    }
+    grilla.innerHTML = lista.map((m) => `
+      <button class="tarjeta" data-id="${esc(m.id)}">
+        ${portadaHTML(m)}
+        <div class="info">
+          ${etiquetasHTML(m)}
+          ${m.portada_url ? `<div style="font-weight:700;font-size:0.95rem">${esc(m.titulo)}</div>` : ""}
+          <p class="resumen">${esc(m.resumen || "")}</p>
+          <div class="pie-tarjeta"><span class="precio">${pesos(m.precio)}</span><span class="paginas">PDF${m.paginas ? ` · ${m.paginas} págs.` : ""}</span></div>
+        </div>
+      </button>`).join("");
+    grilla.querySelectorAll(".tarjeta").forEach((t) => (t.onclick = () => abrir(t.dataset.id)));
+  }
+
+  function abrir(id) {
+    const m = MATERIALES.find((x) => x.id === id);
+    if (!m) return;
+    history.replaceState(null, "", "#" + encodeURIComponent(m.id));
+    const v = document.getElementById("ventana");
+    const muestras = (m.muestras || []).filter(Boolean);
+    const incluye = (m.incluye || []).filter(Boolean);
+    v.innerHTML = `
+      <div style="position:relative">
+        <button class="cerrar" aria-label="Cerrar" onclick="cerrar()">×</button>
+        ${portadaHTML(m)}
+      </div>
+      <div class="cuerpo">
+        <h3 id="vTitulo" style="font-size:1.35rem;margin-bottom:8px">${esc(m.titulo)}</h3>
+        ${etiquetasHTML(m, m.paginas ? `<span class="etiqueta">PDF · ${m.paginas} págs.</span>` : `<span class="etiqueta">PDF</span>`)}
+        <p style="white-space:pre-line">${esc(m.descripcion || m.resumen || "")}</p>
+        ${muestras.length ? `<div style="font-weight:700;font-size:0.9rem;margin-bottom:6px">Páginas de muestra</div>
+          <div class="muestras">${muestras.map((u, i) => `<img class="muestra-img" src="${esc(u)}" alt="Página de muestra ${i + 1}" loading="lazy">`).join("")}</div>` : ""}
+        ${incluye.length ? `<div style="font-weight:700;font-size:0.9rem;margin-bottom:8px">Qué incluye</div>
+          <ul class="incluye">${incluye.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+        <div class="compra">
+          <div class="compra-fila"><span style="font-weight:700">Precio</span><span class="precio">${pesos(m.precio)}</span></div>
+          <div class="campo">
+            <label for="vMail">¿A qué mail te lo mandamos?</label>
+            <input id="vMail" type="email" inputmode="email" placeholder="tu@mail.com" autocomplete="email">
+          </div>
+          <button class="btn btn-mp" id="btnComprar" onclick="comprar('${esc(m.id)}')">Comprar con Mercado Pago</button>
+          <div class="error-compra" id="errorCompra"></div>
+          <small>Pago seguro con Mercado Pago. Apenas se aprueba, te llega el PDF a tu mail.</small>
+        </div>
+        <button class="compartir" onclick="compartir('${esc(m.id)}')">Compartir este material</button>
+      </div>`;
+    document.getElementById("fondo").classList.add("abierto");
+    document.body.style.overflow = "hidden";
+  }
+  function cerrar() {
+    document.getElementById("fondo").classList.remove("abierto");
+    document.body.style.overflow = "";
+    history.replaceState(null, "", location.pathname + location.search);
+  }
+  async function compartir(id) {
+    const url = location.origin + location.pathname + "#" + encodeURIComponent(id);
+    const m = MATERIALES.find((x) => x.id === id);
+    try {
+      if (navigator.share) await navigator.share({ title: m?.titulo || "Docentes360", url });
+      else { await navigator.clipboard.writeText(url); alertaSuave("Enlace copiado"); }
+    } catch (e) { /* cancelado */ }
+  }
+  function alertaSuave(texto) {
+    const err = document.getElementById("errorCompra");
+    if (err) { err.style.display = "block"; err.style.color = "#1F5A37"; err.textContent = texto; }
+  }
+  async function comprar(id) {
+    const email = document.getElementById("vMail").value.trim();
+    const err = document.getElementById("errorCompra");
+    const btn = document.getElementById("btnComprar");
+    err.style.display = "none";
+    err.style.color = "";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      err.textContent = "Poné un mail válido, por ejemplo nombre@gmail.com";
+      err.style.display = "block";
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = "Abriendo Mercado Pago...";
+    try {
+      const resp = await fetch("/api/tienda-comprar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ materialId: id, email }),
+      });
+      const datos = await resp.json();
+      if (!resp.ok || !datos.initPoint) throw new Error(datos.error || "No se pudo iniciar el pago.");
+      location.href = datos.initPoint;
+    } catch (e) {
+      err.textContent = e.message || "No se pudo iniciar el pago. Probá de nuevo.";
+      err.style.display = "block";
+      btn.disabled = false;
+      btn.textContent = "Comprar con Mercado Pago";
+    }
+  }
+  document.getElementById("fondo").addEventListener("click", (e) => { if (e.target.id === "fondo") cerrar(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") cerrar(); });
+
+  async function cargar() {
+    const grilla = document.getElementById("grilla");
+    grilla.innerHTML = '<div class="vacio">Cargando materiales...</div>';
+    try {
+      const resp = await fetch(`${SUPABASE_URL}/rest/v1/tienda_materiales?select=*&activo=eq.true&order=orden.asc,created_at.desc`, {
+        headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
+      });
+      if (!resp.ok) throw new Error();
+      MATERIALES = await resp.json();
+    } catch (e) {
+      grilla.innerHTML = '<div class="vacio">No se pudieron cargar los materiales. Revisá tu conexión y recargá la página.</div>';
+      return;
+    }
+    const niveles = ["Todos", ...new Set(MATERIALES.map((m) => m.nivel).filter(Boolean))];
+    const areas = ["Todas", ...new Set(MATERIALES.map((m) => m.area).filter(Boolean))];
+    document.querySelector(".filtros").style.display = MATERIALES.length > 1 ? "" : "none";
+    armarChips("filtroNivel", niveles, () => nivelSel, (v) => (nivelSel = v));
+    armarChips("filtroArea", areas, () => areaSel, (v) => (areaSel = v));
+    dibujar();
+    const desdeEnlace = decodeURIComponent(location.hash.slice(1));
+    if (desdeEnlace) abrir(desdeEnlace);
+  }
+  cargar();
+</script>
+</body>
+</html>
