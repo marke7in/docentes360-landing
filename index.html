@@ -530,6 +530,10 @@
   .canal-texto { flex: 1; min-width: 240px; }
   .canal-texto h2 { font-size: 1.6rem; color: var(--board-dark); margin-bottom: 6px; max-width: none; }
   .canal-texto p { margin: 0; color: #3d4a44; max-width: 56ch; }
+  .btn-play { background: #111; color: #fff; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; border-color: rgba(242,239,230,0.35); line-height: 1.1; text-align: left; }
+  .btn-play:hover { background: #000; }
+  .btn-play small { display: block; font-size: 0.68rem; font-weight: 500; opacity: 0.85; letter-spacing: 0.02em; }
+  .btn-play svg { flex-shrink: 0; color: var(--chalk-yellow); }
   .btn-wsp { background: #25D366; color: #fff; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; }
   .btn-wsp:hover { background: #1fb957; }
   @media (max-width: 600px) {
@@ -622,6 +626,7 @@
       <li><a href="#funciones">Funciones</a></li>
       <li><a href="#capturas">Capturas</a></li>
       <li><a href="#planes">Planes</a></li>
+      <li><a href="https://play.google.com/store/apps/details?id=app.vercel.docente_app_nine.twa" target="_blank" rel="noopener">Descargar app</a></li>
       <li><a href="#ingresar" class="nav-login" data-abrir-ingreso>Ingresar</a></li>
       <li><a href="https://app.docentes360.com.ar/" class="nav-cta">Probar gratis</a></li>
     </ul>
@@ -631,7 +636,7 @@
 <header class="hero">
   <div class="wrap hero-grid">
     <div>
-      <div class="pill">✦ Nuevo · Ficha en Play Store en camino</div>
+      <div class="pill">✦ Nuevo · Ya disponible en Google Play</div>
       <h1>
         <span class="l1">Tu aula,</span>
         <span class="l2">ordenada</span>
@@ -640,7 +645,7 @@
       <p class="lead">Asistencia, calificaciones, horarios y planificación en una sola app, pensada para el ritmo real del aula argentina.</p>
       <div class="hero-actions">
         <a href="https://app.docentes360.com.ar/" class="btn btn-primary">Probar 15 días gratis</a>
-        <a href="#funciones" class="btn btn-ghost">Ver cómo funciona</a>
+        <a href="https://play.google.com/store/apps/details?id=app.vercel.docente_app_nine.twa" class="btn btn-play" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.5v17a1 1 0 0 0 1.5.86l14-8.5a1 1 0 0 0 0-1.72l-14-8.5A1 1 0 0 0 5 3.5z" fill="currentColor"/></svg><span><small>Descargala en</small>Google Play</span></a>
       </div>
       <p class="hero-login">¿Ya tenés cuenta? <a href="#ingresar" data-abrir-ingreso>Ingresá acá</a></p>
     </div>
@@ -773,7 +778,7 @@
         <div class="feature-dot" style="background: var(--chalk-coral); opacity: 0.7;"></div>
         <div>
           <h3>Ficha de cada estudiante</h3>
-          <p>Teléfonos de contacto, certificado médico, diagnóstico, información importante y un resumen del período listo para imprimir.</p>
+          <p>Tocá su nombre en cualquier planilla: datos de contacto, certificado médico, asistencia con gráfico mes a mes, trabajos y un informe listo para imprimir.</p>
         </div>
       </div>
       <div class="feature-row">
@@ -787,7 +792,14 @@
         <div class="feature-dot" style="background: var(--paper); opacity: 0.45;"></div>
         <div>
           <h3>Proyectos y notas</h3>
-          <p>Organizá proyectos con sus tareas y fechas, y guardá notas con formato. En el horario, sumá notas importantes de cada escuela.</p>
+          <p>Organizá proyectos con sus tareas y fechas, y guardá notas con formato, para una escuela o para todas.</p>
+        </div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-dot" style="background: var(--chalk-mint);"></div>
+        <div>
+          <h3>Funciona sin conexión</h3>
+          <p>Ideal para escuelas con poca señal: lo que cargás se guarda en el celular y se sincroniza solo cuando vuelve internet.</p>
         </div>
       </div>
     </div>
@@ -802,16 +814,16 @@
     </div>
     <div class="shot-grid">
       <figure class="shot">
-        <img src="shots/asistencia.jpg" alt="Grilla de asistencia semanal en Docentes360" style="width:100%; border-radius: 2px; display: block;">
-        <figcaption>Asistencia semanal</figcaption>
+        <img src="shots/asistencia-v2.jpg" alt="Planilla de asistencia con el porcentaje de cada estudiante en Docentes360" loading="lazy" style="width:100%; border-radius: 2px; display: block;">
+        <figcaption>Asistencia con porcentaje</figcaption>
       </figure>
       <figure class="shot">
-        <img src="shots/calificaciones.jpg" alt="Calificaciones por columna en Docentes360" style="width:100%; border-radius: 2px; display: block;">
-        <figcaption>Calificaciones</figcaption>
+        <img src="shots/ficha-v2.jpg" alt="Ficha del estudiante con gráfico de asistencia mes a mes en Docentes360" loading="lazy" style="width:100%; border-radius: 2px; display: block;">
+        <figcaption>Ficha del estudiante</figcaption>
       </figure>
       <figure class="shot">
-        <img src="shots/calendario.jpg" alt="Calendario de eventos y planificación en Docentes360" style="width:100%; border-radius: 2px; display: block;">
-        <figcaption>Calendario y planificación</figcaption>
+        <img src="shots/calendario-v2.jpg" alt="Calendario con eventos, reemplazos, licencias y proyectos en Docentes360" loading="lazy" style="width:100%; border-radius: 2px; display: block;">
+        <figcaption>Calendario como agenda</figcaption>
       </figure>
     </div>
   </div>
@@ -854,8 +866,8 @@
         <h3>Plan Normal</h3>
         <div class="plan-price">$3.000 <span>/ mes</span></div>
         <ul>
-          <li>Estudiantes y escuelas sin límite</li>
-          <li>Todas las funciones, con archivos adjuntos</li>
+          <li>Estudiantes sin límite y hasta 6 escuelas</li>
+          <li>Todas las funciones, con archivos adjuntos (PDF, Word o Excel, hasta 5 MB cada uno y 30 MB en total)</li>
           <li>Plan Anual: $30.000 por año (12 meses al precio de 10)</li>
           <li>Precio fijo si te registrás antes del 31/12/2026</li>
         </ul>
@@ -883,9 +895,10 @@
 <section class="section-paper cta-final">
   <div class="wrap">
     <h2>¿Listo para ordenar el aula?</h2>
-    <p>Probá Docentes360 quince días sin costo y decidí después con calma.</p>
+    <p>Probá Docentes360 quince días sin costo y decidí después con calma. Desde la web o con la app de Android.</p>
     <div class="hero-actions">
       <a href="https://app.docentes360.com.ar/" class="btn btn-primary" style="background: var(--board); color: var(--paper);">Probar gratis ahora</a>
+      <a href="https://play.google.com/store/apps/details?id=app.vercel.docente_app_nine.twa" class="btn btn-play" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.5v17a1 1 0 0 0 1.5.86l14-8.5a1 1 0 0 0 0-1.72l-14-8.5A1 1 0 0 0 5 3.5z" fill="currentColor"/></svg><span><small>Descargala en</small>Google Play</span></a>
     </div>
   </div>
 </section>
